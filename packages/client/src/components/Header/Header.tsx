@@ -1,7 +1,5 @@
 import React from 'react';
-
-console.log('hello world');
-
+console.log('testing')
 const Header = () => {
   return <div>Header</div>;
 };
