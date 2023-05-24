@@ -9,11 +9,14 @@
   "main": "index.js",
   "scripts": {
     "test": "lerna run test --stream",
-    "dev": "lerna run dev --stream"
+    "dev": "lerna run dev --stream",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "lerna": "^5.1.8"
+    "husky": "^8.0.0",
+    "lerna": "^5.1.8",
+    "lint-staged": "^13.2.2"
   }
 }
