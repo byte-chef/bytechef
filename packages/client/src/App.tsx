@@ -1,23 +1,28 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import Header from './components/Header/Header';
 
 function App() {
-  const [greeting, setGreeting] = useState('');
+  // const [greeting, setGreeting] = useState('');
 
-  useEffect(() => {
-    const getGreeting = async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_BC_API_URL}/greeting`
-      );
-      const { greeting } = await response.json();
-      console.log('Greeting: ', greeting);
-      setGreeting(greeting);
-    };
+  // useEffect(() => {
+  //   const getGreeting = async () => {
+  //     const response = await fetch(
+  //       `${import.meta.env.VITE_BC_API_URL}/greeting`
+  //     );
+  //     const { greeting } = await response.json();
+  //     console.log('Greeting: ', greeting);
+  //     setGreeting(greeting);
+  //   };
 
-    getGreeting();
-  }, []);
+  //   getGreeting();
+  // }, []);
 
-  return <div className="btn">{greeting}</div>;
+  return (
+    <>
+      <Header />
+    </>
+  );
 }
 
 export default App;
