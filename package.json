@@ -1,0 +1,19 @@
+{
+  "name": "bytechef",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "lerna run test --stream",
+    "dev": "lerna run dev --stream"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lerna": "^5.1.8"
+  }
+}
