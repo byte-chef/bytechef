@@ -1,5 +1,5 @@
 import React from 'react';
-console.log('testing')
+this should not work
 const Header = () => {
   return <div>Header</div>;
 };
