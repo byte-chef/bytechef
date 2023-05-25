@@ -1,5 +1,3 @@
-import { ChatMessage, CreateChatRequest } from './openai';
-
 const examplePrompt = {
   ingredients: ['eggs', 'milk', 'heavy cream', 'flour'],
   allowOtherIngredients: true,
@@ -83,7 +81,7 @@ const exampleResponse2 = {
     'A piece of chicken breast on a plate with some lemon slices and a sprig of parsley, on a white table with a napkin and green glass of water.',
 };
 
-const defaultMessagesPrompt: ChatMessage[] = [
+const defaultMessagesPrompt = [
   {
     role: 'system',
     content:
@@ -101,6 +99,6 @@ const defaultMessagesPrompt: ChatMessage[] = [
   { role: 'assistant', content: JSON.stringify(exampleResponse2) },
 ];
 
-export const createPrompt = (userContent: string): ChatMessage[] => {
+export const createPrompt = (userContent: string) => {
   return [...defaultMessagesPrompt, { role: 'user', content: userContent }];
 };

@@ -79,7 +79,7 @@ const generateRequest = async (
     console.log('Prompt generated. Sending to OpenAI...');
 
     chatCompletion = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4',
       messages: prompt,
     });
   } catch (err) {
