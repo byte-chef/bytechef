@@ -7,9 +7,10 @@
     "dev": "nodemon src/index.ts",
     "start": "ts-node src/index.ts",
     "dev:docker": "docker compose down && docker compose up --build",
-    "test": "vitest --globals"
+    "test": "vitest run --globals"
   },
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "connect-mongo": "^5.0.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -22,6 +23,7 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
