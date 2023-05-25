@@ -7,6 +7,9 @@ import openai from '../utils/openai';
 import { createPrompt } from '../utils/aiPrompt';
 import { getImageBuffer } from '../utils/image';
 import { uploadImage } from '../utils/s3';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const validateRequest = async (
   req: Request,
@@ -79,7 +82,7 @@ const generateRequest = async (
     console.log('Prompt generated. Sending to OpenAI...');
 
     chatCompletion = await openai.createChatCompletion({
-      model: 'gpt-4',
+      model: process.env.BC_OPENAI_MODEL || 'gpt-3.5-turbo',
       messages: prompt,
     });
   } catch (err) {
@@ -93,7 +96,7 @@ const generateRequest = async (
 
   const responseJson = chatCompletion.data.choices[0].message.content;
 
-  console.log("Received AI's response.", responseJson);
+  console.log("Received AI's response.");
   console.log("Attempting to parse AI's response...");
 
   let generatedRecipe;
@@ -107,7 +110,7 @@ const generateRequest = async (
     });
   }
 
-  console.log('AI response parsed.', generatedRecipe);
+  console.log('AI response parsed.');
   console.log('Validating AI response...');
 
   let validatedRecipe;
@@ -122,7 +125,8 @@ const generateRequest = async (
     });
   }
 
-  console.log('AI response validated.', validatedRecipe);
+  console.log('AI response validated.');
+  console.log('Receipe generated.');
 
   res.locals.generatedRecipe = validatedRecipe;
   return next();
@@ -134,6 +138,8 @@ const generateImage = async (
   next: NextFunction
 ) => {
   const { generatedRecipe } = res.locals;
+
+  console.log('Generating image...');
 
   let tempImageUrl;
 
@@ -153,6 +159,9 @@ const generateImage = async (
     });
   }
 
+  console.log('Image generated.');
+  console.log('Downloading image...');
+
   let imageBuffer: Buffer;
 
   try {
@@ -165,7 +174,9 @@ const generateImage = async (
     });
   }
 
+  console.log('Image downloaded.');
   console.log('Uploading image to S3...');
+
   let imageUrl: string;
   try {
     imageUrl = await uploadImage(imageBuffer);
@@ -178,6 +189,7 @@ const generateImage = async (
   }
 
   console.log('Image uploaded to S3.', imageUrl);
+  console.log('Image generation and upload complete.');
 
   res.locals.generatedRecipe.imageUrl = imageUrl;
 
