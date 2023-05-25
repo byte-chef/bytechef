@@ -22,7 +22,7 @@ const validateRequest = async (
 
   try {
     generateRequest = await validateGenerateRequest(req.body);
-    res.locals.generateRequest = generateRequest;
+    res.locals.generationRequest = generateRequest;
 
     console.log('Request body validated.', generateRequest);
 
@@ -41,10 +41,20 @@ const moderateRequest = async (
   res: Response,
   next: NextFunction
 ) => {
+  console.log('Moderating request for inappropriate content...');
+
+  const { generationRequest } = res.locals;
+
+  let moderationString = `${generationRequest.cuisine} ${
+    generationRequest.theme
+  } with ${generationRequest.ingredients.join(' ')}`;
+
+  console.log('Moderation string generated.', moderationString);
+
   let moderationResponse;
   try {
     moderationResponse = await openai.createModeration({
-      input: JSON.stringify(res.locals.generateRequest),
+      input: moderationString,
     });
   } catch (err) {
     return next({
@@ -54,7 +64,9 @@ const moderateRequest = async (
     });
   }
   const moderationResult = moderationResponse.data.results[0];
+
   if (moderationResult.flagged) {
+    console.log("Request was flagged by OpenAI's moderation.");
     const flaggedReasons = Object.keys(moderationResult.categories).filter(
       (category) => moderationResult.categories[category] === true
     );
@@ -66,6 +78,9 @@ const moderateRequest = async (
       log: 'Prompt failed moderation.',
     });
   }
+
+  console.log('Request passed moderation.');
+
   return next();
 };
 
@@ -77,7 +92,7 @@ const generateRequest = async (
   let chatCompletion;
 
   try {
-    const prompt = createPrompt(JSON.stringify(res.locals.generateRequest));
+    const prompt = createPrompt(JSON.stringify(res.locals.generationRequest));
 
     console.log('Prompt generated. Sending to OpenAI...');
 
