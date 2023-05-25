@@ -7,7 +7,7 @@
     "dev": "nodemon src/index.ts",
     "start": "ts-node src/index.ts",
     "dev:docker": "docker compose down && docker compose up --build",
-    "test": "vitest --globals"
+    "test": "vitest run --globals"
   },
   "dependencies": {
     "aws-sdk": "^2.1384.0",
