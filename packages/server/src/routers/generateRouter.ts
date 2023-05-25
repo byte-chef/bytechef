@@ -8,6 +8,7 @@ generateRouter.post(
   generateController.validateRequest,
   generateController.moderateRequest,
   generateController.generateRequest,
+  generateController.generateImage,
   (req: Request, res: Response) => {
     res.json(res.locals.generatedRecipe);
   }

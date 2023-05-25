@@ -5,6 +5,8 @@ import {
 } from '../utils/validation';
 import openai, { createChatCompletion } from '../utils/openai';
 import { createPrompt } from '../utils/aiPrompt';
+import { getImageBuffer } from '../utils/image';
+import { uploadImage } from '../utils/s3';
 
 const validateRequest = async (
   req: Request,
@@ -126,8 +128,65 @@ const generateRequest = async (
   return next();
 };
 
+const generateImage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { generatedRecipe } = res.locals;
+
+  let tempImageUrl;
+
+  try {
+    const imageGenerationResponse = await openai.createImage({
+      prompt: generatedRecipe.imagePrompt,
+      n: 1,
+      size: '512x512',
+    });
+
+    tempImageUrl = imageGenerationResponse.data.data[0].url;
+  } catch (err) {
+    return next({
+      status: 500,
+      message: `Error generating image.`,
+      log: JSON.stringify(err),
+    });
+  }
+
+  let imageBuffer: Buffer;
+
+  try {
+    imageBuffer = await getImageBuffer(tempImageUrl);
+  } catch (err) {
+    return next({
+      status: 500,
+      message: `Error downloading image.`,
+      log: JSON.stringify(err),
+    });
+  }
+
+  console.log('Uploading image to S3...');
+  let imageUrl: string;
+  try {
+    imageUrl = await uploadImage(imageBuffer);
+  } catch (err) {
+    return next({
+      status: 500,
+      message: `Error uploading image to S3.`,
+      log: JSON.stringify(err),
+    });
+  }
+
+  console.log('Image uploaded to S3.', imageUrl);
+
+  res.locals.generatedRecipe.imageUrl = imageUrl;
+
+  return next();
+};
+
 export default {
   validateRequest,
   moderateRequest,
   generateRequest,
+  generateImage,
 };
