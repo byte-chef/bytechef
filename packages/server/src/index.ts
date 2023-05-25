@@ -1,13 +1,32 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
+import passport from 'passport';
+import session from 'express-session';
+import path from 'path';
+import MongoStore from 'connect-mongo';
+
+dotenv.config();
+
+import { authRouter } from './routers/authRouter';
+// import { generateRouter } from './routers/generateRouter';
+// import { recipeRouter } from './routers/recipeRouter';
 
 const app = express();
 
+app.use(cookieParser());
+app.use(express.json());
+
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 
-app.get('/greeting', (req, res) => {
-  res.json({ greeting: 'Hi there!' });
+//API routes
+app.use('/api/auth', authRouter);
+
+// Send a 404 for any other routes requested
+app.get('*', authenticateUser, (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname), '../client/index.html');
 });
 
 const start = async () => {
