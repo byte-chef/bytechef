@@ -1,25 +1,30 @@
+import logoUrl from '../../assets/bc-logo2.png'
+
 const Header = () => {
   return (
-    <>
-      <nav className="flex items-center justify-between flex-wrap bg-cyan-600 0">
-        <span className="font-semibold text-2xl tracking-tight">Byte-Chef</span>
-
-        <div className="text-sm font-semibold flex justify-end lg:flex-grow">
-          <a
-            href=""
-            className="block mt-4 lg:inline-block lg:mt-0 text-teal-100 hover:text-yellow-200 mr-4"
+    <header className="flex flex-wrap justify-center phone:justify-between">
+      <div className = "flex items-center p-2">
+          <img src={logoUrl} className="h-10"></img>
+          <span className="font-semibold font-mono text-gray-600 phone:text-2xl tracking-tight pl-2">Byte-Chef</span>
+        </div>
+      <nav className="flex">
+        
+        <div className="text-sm font-semibold flex justify-center tablet: h-10">
+          <button
+            
+            className="btn btn-red block tablet: mt-2"
           >
-            Generate New Recipe
-          </a>
-          <a
-            href="#"
-            className="block mt-4 lg:inline-block lg:mt-0 text-teal-100 hover:text-yellow-200"
+            Generate
+          </button>
+          <button
+            
+            className="btn btn-slate mt-2 mx-4"
           >
             Logout
-          </a>
+          </button>
         </div>
       </nav>
-    </>
+    </header>
   );
 };
 
