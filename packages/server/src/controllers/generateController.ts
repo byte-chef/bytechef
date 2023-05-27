@@ -108,7 +108,7 @@ const generateRequest = async (
     console.log('Error with AI response.', err);
     return next({
       status: 500,
-      message: `Error generating prompt. ${err}`,
+      message: `Error generating prompt.`,
       log: JSON.stringify(err),
     });
   }
