@@ -73,7 +73,6 @@ userSchema.pre('save', async function save(next) {
 userSchema.methods.comparePassword = async function (
   candidatePassword: string
 ) {
-  if (this.provider !== 'local') return false;
   console.log(`Comparing ${candidatePassword} to hashed ${this.password}.`);
   return await bcrypt.compare(candidatePassword, this.password);
 };

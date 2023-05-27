@@ -11,7 +11,7 @@ export interface Recipe {
   time: number;
 }
 
-export interface RecipeAttrs extends Recipe {}
+export type RecipeAttrs = Recipe;
 
 export interface RecipeModel extends mongoose.Model<RecipeDocument> {
   build: (attrs: RecipeAttrs) => RecipeDocument;
