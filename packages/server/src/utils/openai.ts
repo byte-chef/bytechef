@@ -1,5 +1,4 @@
-const { Configuration, OpenAIApi } = require('openai');
-import axios from 'axios';
+import { Configuration, OpenAIApi } from 'openai';
 import dotenv from 'dotenv';
 
 dotenv.config();
