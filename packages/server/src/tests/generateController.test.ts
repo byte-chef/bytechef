@@ -126,21 +126,18 @@ describe('generateController', () => {
     });
 
     it('should invoke next error handling if moderation is flagged', async () => {
-      const spy = vi
-        .spyOn(openai, 'createModeration')
-
-        .mockResolvedValue({
-          data: {
-            results: [
-              {
-                flagged: true,
-                categories: {
-                  bad: true,
-                },
+      vi.spyOn(openai, 'createModeration').mockResolvedValue({
+        data: {
+          results: [
+            {
+              flagged: true,
+              categories: {
+                bad: true,
               },
-            ],
-          },
-        } as any);
+            },
+          ],
+        },
+      } as any);
 
       await generateController.moderateRequest(req, res, next);
 
