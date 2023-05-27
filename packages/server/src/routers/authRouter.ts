@@ -3,7 +3,6 @@ import {
   authenticateUser,
   signin,
   signup,
-  getUser,
 } from '../controllers/authController';
 
 const router = Router();
@@ -20,23 +19,13 @@ router.post('/signin', signin, (req: Request, res: Response) => {
 
 // Other Routes
 
-router.get(
-  '/user',
-  getUser,
-  authenticateUser,
-  (req: Request, res: Response) => {
-    return res.status(200).json(req.user);
-  }
-);
+router.get('/user', authenticateUser, (req: Request, res: Response) => {
+  return res.status(200).json(req.user);
+});
 
-router.get(
-  '/signout',
-  getUser,
-  authenticateUser,
-  (req: Request, res: Response) => {
-    req.session.userId = undefined;
-    res.status(200).send();
-  }
-);
+router.get('/signout', authenticateUser, (req: Request, res: Response) => {
+  req.session.userId = undefined;
+  res.status(200).send();
+});
 
 export default router;

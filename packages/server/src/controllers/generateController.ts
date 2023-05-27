@@ -68,7 +68,8 @@ const moderateRequest = async (
   if (moderationResult.flagged) {
     console.log("Request was flagged by OpenAI's moderation.");
     const flaggedReasons = Object.keys(moderationResult.categories).filter(
-      (category) => moderationResult.categories[category] === true
+      (category: keyof typeof moderationResult.categories) =>
+        moderationResult.categories[category] === true
     );
     return next({
       message: `Prompt failed moderation. Reasons: ${JSON.stringify(

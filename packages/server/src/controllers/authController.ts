@@ -20,19 +20,29 @@ export const signin = async (
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      throw new Error('Email and password are required');
+      return next({
+        log: `Request body missing email or password, req.body: ${req.body}`,
+        message: 'Missing email or password',
+        status: 400,
+      });
     }
 
     const user = (await User.findOne({ email })) as UserDocument;
     if (!user) {
-      throw new Error('Invalid email or password - email');
+      return next({
+        log: 'Invalid email',
+        message: 'Invalid email or password',
+        status: 400,
+      });
     }
 
     const userAuthenticated = await user.comparePassword(password);
     if (!userAuthenticated) {
-      throw new Error(
-        `Invalid email or password - password ${userAuthenticated}`
-      );
+      return next({
+        log: 'Invalid password',
+        message: 'Invalid email or password',
+        status: 400,
+      });
     }
 
     req.session.userId = user.id;
@@ -40,7 +50,11 @@ export const signin = async (
 
     return next();
   } catch (error) {
-    return next(error);
+    return next({
+      log: `Error connecting to db: ${error}`,
+      message: 'Server Error',
+      status: 500,
+    });
   }
 };
 
@@ -59,7 +73,11 @@ export const signup = async (
   try {
     const { email, displayName, password } = req.body;
     if (!email || !password || !displayName) {
-      throw new Error('Email, Display Name and Password are required');
+      return next({
+        log: `Request body missing email, displayName, or password, req.body: ${req.body}`,
+        message: 'Missing email, display name, or password',
+        status: 400,
+      });
     }
 
     const user = new User({
@@ -75,7 +93,11 @@ export const signup = async (
 
     return next();
   } catch (error) {
-    return next(error);
+    return next({
+      log: `Error connecting to db: ${error}`,
+      message: 'Server Error',
+      status: 500,
+    });
   }
 };
 
@@ -86,7 +108,7 @@ export const signup = async (
  * @param next
  * @returns
  */
-export const getUser = async (
+export const authenticateUser = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -94,34 +116,27 @@ export const getUser = async (
   try {
     const { userId } = req.session;
     if (!userId) {
-      return next();
+      return next({
+        log: 'Attempted use of endpoint without authentication',
+        message: 'Not authorized',
+        status: 401,
+      });
     }
     const user = await User.findById(userId);
     if (!user) {
-      return next();
+      return next({
+        log: 'Attempted use of endpoint without authentication',
+        message: 'Not authorized',
+        status: 401,
+      });
     }
     req.user = user as UserDocument;
     return next();
   } catch (error) {
-    return next(error);
+    return next({
+      log: `Error connecting to db: ${error}`,
+      message: 'Server Error',
+      status: 500,
+    });
   }
-};
-
-/**
- * This middleware function will redirect the user to the login page if they are not authenticated. If they are authenticated, it will call next() and allow the request to continue. Note that if the route using this middleware is called by an AJAX request, the user will not be redirected. Instead, the request will fail with a 401 status code.
- * @param req
- * @param res
- * @param next
- * @returns
- */
-export const authenticateUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  if (req.user) {
-    console.log('Authenticated user: ', req.user);
-    return next();
-  }
-  res.status(401).redirect('/signin');
 };
