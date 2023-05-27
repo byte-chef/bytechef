@@ -1,8 +1,10 @@
+import * as ImageUtils from './../utils/image';
 import { Request, Response } from 'express';
 import generateController from '../controllers/generateController';
 import * as Validation from '../utils/validation';
 import { vi } from 'vitest';
 import { openai } from '../utils/openai';
+import * as S3Utils from '../utils/s3';
 
 vi.mock('../utils/openai', () => {
   const openai = {
@@ -26,6 +28,15 @@ vi.mock('../utils/openai', () => {
         ],
       },
     })),
+    createImage: vi.fn(() => ({
+      data: {
+        data: [
+          {
+            url: 'url',
+          },
+        ],
+      },
+    })),
   };
   return { openai };
 });
@@ -39,9 +50,18 @@ vi.mock('../utils/aiPrompt', () => ({
   createPrompt: vi.fn(() => 'prompt'),
 }));
 
+vi.mock('../utils/image', () => ({
+  getImageBuffer: vi.fn(() => 'image buffer'),
+}));
+
+vi.mock('../utils/s3', () => ({
+  uploadImage: vi.fn(() => 's3 url'),
+}));
+
 describe('generateController', () => {
   afterEach(() => {
     vi.clearAllMocks();
+    vi.restoreAllMocks();
   });
 
   describe('validateRequest', () => {
@@ -245,6 +265,84 @@ describe('generateController', () => {
 
       expect(res.locals.generatedRecipe).toEqual('validated response');
       expect(next).toHaveBeenCalled();
+    });
+  });
+
+  describe('generateImage', () => {
+    const req = {} as Request;
+    const res = {
+      locals: {
+        generatedRecipe: {
+          imagePrompt: 'image',
+        },
+      },
+    } as unknown as Response;
+    const next = vi.fn();
+
+    it('should call openai createImage with the correct prompt', async () => {
+      await generateController.generateImage(req, res, next);
+
+      expect(openai.createImage).toHaveBeenCalledWith({
+        prompt: 'image',
+        n: 1,
+        size: '512x512',
+      });
+    });
+
+    it('should call next with an error if openai throws an error', async () => {
+      vi.spyOn(openai, 'createImage').mockRejectedValue(new Error('error'));
+
+      await generateController.generateImage(req, res, next);
+
+      expect(next).toHaveBeenCalledWith({
+        status: 500,
+        message: 'Error generating image.',
+        log: expect.any(String),
+      });
+    });
+
+    it('should call getImageBuffer with the correct parameters', async () => {
+      await generateController.generateImage(req, res, next);
+
+      expect(ImageUtils.getImageBuffer).toHaveBeenCalledWith('url');
+    });
+
+    it('should call next with an error if getImageBuffer throws an error', async () => {
+      vi.spyOn(ImageUtils, 'getImageBuffer').mockRejectedValue(
+        new Error('error')
+      );
+
+      await generateController.generateImage(req, res, next);
+
+      expect(next).toHaveBeenCalledWith({
+        status: 500,
+        message: 'Error downloading image.',
+        log: expect.any(String),
+      });
+    });
+
+    it('should call AWS with the image buffer to upload to S3', async () => {
+      await generateController.generateImage(req, res, next);
+
+      expect(S3Utils.uploadImage).toHaveBeenCalledWith('image buffer');
+    });
+
+    it('should call next with an error if uploadImage throws an error', async () => {
+      vi.spyOn(S3Utils, 'uploadImage').mockRejectedValue(new Error(''));
+
+      await generateController.generateImage(req, res, next);
+
+      expect(next).toHaveBeenCalledWith({
+        status: 500,
+        message: 'Error uploading image to S3.',
+        log: expect.any(String),
+      });
+    });
+
+    it('should set res.locals.generatedRecipe.imageUrl to the S3 url', async () => {
+      await generateController.generateImage(req, res, next);
+
+      expect(res.locals.generatedRecipe.imageUrl).toEqual('s3 url');
     });
   });
 });
