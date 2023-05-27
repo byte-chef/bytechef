@@ -3,7 +3,7 @@ import {
   validateGenerateRequest,
   validateGenerateResponse,
 } from '../utils/validation';
-import openai from '../utils/openai';
+import { openai } from '../utils/openai';
 import { createPrompt } from '../utils/aiPrompt';
 import { getImageBuffer } from '../utils/image';
 import { uploadImage } from '../utils/s3';
