@@ -4,14 +4,14 @@ export interface Recipe {
   name: string;
   description: string;
   ingredients: string[];
-  instructions: string;
+  instructions: string[];
   imagePrompt: string;
   imageUrl: string;
   servings: number;
   time: number;
 }
 
-export interface RecipeAttrs extends Recipe {}
+export type RecipeAttrs = Recipe
 
 export interface RecipeModel extends mongoose.Model<RecipeDocument> {
   build: (attrs: RecipeAttrs) => RecipeDocument;
@@ -36,7 +36,7 @@ const recipeSchema = new mongoose.Schema<RecipeAttrs>(
       required: true,
     },
     instructions: {
-      type: String,
+      type: [String],
       required: true,
     },
     imagePrompt: {
