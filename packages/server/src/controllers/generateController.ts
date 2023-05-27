@@ -8,6 +8,7 @@ import { createPrompt } from '../utils/aiPrompt';
 import { getImageBuffer } from '../utils/image';
 import { uploadImage } from '../utils/s3';
 import dotenv from 'dotenv';
+import { ChatCompletionRequestMessage } from 'openai';
 
 dotenv.config();
 
@@ -45,7 +46,7 @@ const moderateRequest = async (
 
   const { generationRequest } = res.locals;
 
-  let moderationString = `${generationRequest.cuisine} ${
+  const moderationString = `${generationRequest.cuisine} ${
     generationRequest.theme
   } with ${generationRequest.ingredients.join(' ')}`;
 
@@ -68,7 +69,10 @@ const moderateRequest = async (
   if (moderationResult.flagged) {
     console.log("Request was flagged by OpenAI's moderation.");
     const flaggedReasons = Object.keys(moderationResult.categories).filter(
-      (category) => moderationResult.categories[category] === true
+      (category) =>
+        moderationResult.categories[
+          category as keyof typeof moderationResult.categories
+        ] === true
     );
     return next({
       message: `Prompt failed moderation. Reasons: ${JSON.stringify(
@@ -98,7 +102,7 @@ const generateRequest = async (
 
     chatCompletion = await openai.createChatCompletion({
       model: process.env.BC_OPENAI_MODEL || 'gpt-3.5-turbo',
-      messages: prompt,
+      messages: prompt as ChatCompletionRequestMessage[],
     });
   } catch (err) {
     console.log('Error with AI response.', err);
@@ -109,7 +113,16 @@ const generateRequest = async (
     });
   }
 
-  const responseJson = chatCompletion.data.choices[0].message.content;
+  const choices = chatCompletion.data.choices;
+  if (!choices || choices.length === 0) {
+    return next({
+      status: 500,
+      message: `AI did not provide response.`,
+      log: JSON.stringify(chatCompletion),
+    });
+  }
+
+  const responseJson = choices[0].message?.content || '';
 
   console.log("Received AI's response.");
   console.log("Attempting to parse AI's response...");
@@ -165,7 +178,7 @@ const generateImage = async (
       size: '512x512',
     });
 
-    tempImageUrl = imageGenerationResponse.data.data[0].url;
+    tempImageUrl = imageGenerationResponse.data.data[0].url || '';
   } catch (err) {
     return next({
       status: 500,
