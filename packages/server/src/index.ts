@@ -31,12 +31,7 @@ app.use(
 app.use(cors({ origin: 'process.env.BC_CLIENT_URL', credentials: true }));
 
 //API routes
-app.use('/api/auth', authRouter);
-
-// Send a 404 for any other routes requested
-app.get('*', authenticateUser, (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, '../client/src/index.html'));
-});
+app.use('/auth', authRouter);
 
 const start = async () => {
   try {

@@ -1,33 +1,42 @@
 import { Request, Response, Router } from 'express';
 import {
   authenticateUser,
-  login,
-  register,
+  signin,
+  signup,
+  getUser,
 } from '../controllers/authController';
 
 const router = Router();
 
 // Manual Auth Routes
 
-router.post('/register', register, login, (req: Request, res: Response) => {
+router.post('/signup', signup, (req: Request, res: Response) => {
   res.status(200).json(res.locals.user);
 });
 
-router.post('/login', login, (req: Request, res: Response) => {
+router.post('/signin', signin, (req: Request, res: Response) => {
   res.status(200).json(res.locals.user);
 });
 
 // Other Routes
 
-router.get('/user', authenticateUser, (req: Request, res: Response) => {
-  return res.status(200).json(req.user);
-});
+router.get(
+  '/user',
+  getUser,
+  authenticateUser,
+  (req: Request, res: Response) => {
+    return res.status(200).json(req.user);
+  }
+);
 
-router.get('/signout', (req: Request, res: Response) => {
-  req.logout((err: any) => {
-    return res.status(500).send(err);
-  });
-  res.status(200).send();
-});
+router.get(
+  '/signout',
+  getUser,
+  authenticateUser,
+  (req: Request, res: Response) => {
+    req.session.userId = undefined;
+    res.status(200).send();
+  }
+);
 
 export default router;

@@ -12,7 +12,7 @@ import {
  * @param next
  * @returns
  */
-export const login = async (
+export const signin = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -25,12 +25,14 @@ export const login = async (
 
     const user = (await User.findOne({ email })) as UserDocument;
     if (!user) {
-      throw new Error('Invalid email or password');
+      throw new Error('Invalid email or password - email');
     }
 
     const userAuthenticated = await user.comparePassword(password);
     if (!userAuthenticated) {
-      throw new Error('Invalid email or password');
+      throw new Error(
+        `Invalid email or password - password ${userAuthenticated}`
+      );
     }
 
     req.session.userId = user.id;
@@ -49,14 +51,14 @@ export const login = async (
  * @param next
  * @returns
  */
-export const register = async (
+export const signup = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const { email, displayName, password } = req.body;
-    if (!email || !password || displayName) {
+    if (!email || !password || !displayName) {
       throw new Error('Email, Display Name and Password are required');
     }
 
@@ -69,6 +71,7 @@ export const register = async (
     await user.save();
 
     res.locals.user = user;
+    req.session.userId = user.id;
 
     return next();
   } catch (error) {
