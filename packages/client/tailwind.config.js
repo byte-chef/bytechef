@@ -9,7 +9,7 @@ export default {
       mono: ['Space Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco']
     },
     screens: {
-      phone: '365px',
+      phone: '400px',
       tablet: '640px',
       laptop: '1024px',
     },
