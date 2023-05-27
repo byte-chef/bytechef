@@ -10,7 +10,8 @@
   "scripts": {
     "test": "lerna run test --stream",
     "dev": "lerna run dev --stream",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "lerna run lint --stream"
   },
   "author": "",
   "license": "ISC",

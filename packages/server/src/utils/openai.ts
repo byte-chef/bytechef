@@ -1,5 +1,4 @@
 import { Configuration, OpenAIApi } from 'openai';
-import axios from 'axios';
 import dotenv from 'dotenv';
 
 dotenv.config();
