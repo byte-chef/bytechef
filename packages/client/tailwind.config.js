@@ -6,7 +6,7 @@ export default {
     fontFamily: {
       sans: ['Graphik', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
-      mono: ['Space Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco']
+      mono: ['Space Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco'],
     },
     screens: {
       phone: '400px',
