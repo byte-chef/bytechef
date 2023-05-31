@@ -43,11 +43,11 @@ const GenerateOverlay = () => {
   };
 
   return (
-    <div className="relative z-20">
-      <div className="absolute max-w-[95%] w-[400px] min-h-[300px] bg-slate-100 top-0 shadow-md left-0 p-6 md:w-auto md:max-w-auto">
+    <div className="relative z-20 m-1">
+      <div className="absolute max-w-[95%] w-[400px] min-h-[300px] bg-slate-100 top-0 shadow-md left-0 p-6 md:w-auto md:max-w-auto rounded-lg">
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <h2 className="mb-2 md:text-left">Generate New Recipe</h2>
-          <div className="flex flex-col gap-4 md:flex-row ">
+          <div className="flex flex-col gap-6 md:flex-row ">
             <div className="flex flex-col gap-2  md:min-w-[300px]">
               <DynamicList
                 label="Ingredients"
