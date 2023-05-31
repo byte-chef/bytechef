@@ -1,8 +1,12 @@
-import { useEffect, useState } from 'react';
 import './index.css';
 import Header from './components/Header/Header';
 import Recipe from './components/Recipe/Recipe';
 import RecipeCard from './components/RecipeCard/RecipeCard';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+
+// Create a client
+const queryClient = new QueryClient();
 
 function App() {
   // const [greeting, setGreeting] = useState('');
@@ -22,9 +26,12 @@ function App() {
 
   return (
     <>
-      <Header />
-      <Recipe />
-      <RecipeCard />
+      <QueryClientProvider client={queryClient}>
+        <Header />
+        <Recipe />
+        <RecipeCard />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </>
   );
 }
