@@ -31,7 +31,7 @@ const DynamicList: React.FC<DynamicListProps> = ({
             <li
               key={index}
               className={`flex items-center justify-between gap-3 w-full px-2 py-1 ${
-                index % 2 === 0 ? 'bg-slate-200' : ''
+                index % 2 === 0 ? 'bg-slate-50' : 'bg-slate-100'
               }`}
             >
               <p>{value}</p>
