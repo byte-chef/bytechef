@@ -6,7 +6,7 @@ const generateRouter = Router();
 
 generateRouter.post(
   '/',
-  authenticateUser,
+  // authenticateUser,
   generateController.validateRequest,
   generateController.moderateRequest,
   generateController.generateRequest,

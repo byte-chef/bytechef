@@ -25,7 +25,7 @@ function App() {
     <>
       <Header />
       <Recipe />
-      <GenerateOverlay />
+      <GenerateOverlay onGenerate={(recipe) => console.log(recipe)} />
       <RecipeCard />
     </>
   );
