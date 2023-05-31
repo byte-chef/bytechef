@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import './index.css';
 import Header from './components/Header/Header';
+import Recipe from './components/Recipe/Recipe';
+import RecipeCard from './components/RecipeCard/RecipeCard';
 
 function App() {
   // const [greeting, setGreeting] = useState('');
@@ -21,6 +23,8 @@ function App() {
   return (
     <>
       <Header />
+      <Recipe />
+      <RecipeCard />
     </>
   );
 }

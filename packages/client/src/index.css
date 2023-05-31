@@ -1,3 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
+
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-center bg-light;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply cursor-pointer rounded w-20 p-1 transition ease-out duration-500
+  }
+  .btn-red {
+    @apply bg-red-800 hover:bg-red-600 border-2 border-custom_beige text-light ;
+  }
+
+  .btn-slate {
+    @apply bg-custom_beige hover:bg-amber-200 border-2 border-red-700 text-gray-700; 
+  }
+
+  .maxW {
+    @apply max-w-[1200px] m-auto
+  }
+
+}
+
+
+
+
+
