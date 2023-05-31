@@ -1,5 +1,6 @@
 import React from 'react';
 import TextField from '../TextField/TextField';
+import DynamicList from '../DynamicList/DynamicList';
 
 interface GenerateOptions {
   ingredients: string[];
@@ -33,14 +34,14 @@ const GenerateOverlay = () => {
   return (
     <div className="relative z-20">
       <div className="absolute min-w-[300px] min-h-[300px] bg-slate-100 top-0 shadow-md left-0 p-6">
-        <form className="flex flex-col gap-3">
-          <TextField
+        <form className="flex flex-col gap-4">
+          <DynamicList
             label="Ingredients"
-            value={generateOptions.ingredients.join(', ')}
-            onChange={(event) =>
+            values={generateOptions.ingredients}
+            onChange={(values) =>
               setGenerateOptions({
                 ...generateOptions,
-                ingredients: event.target.value.split(', '),
+                ingredients: values,
               })
             }
           />
