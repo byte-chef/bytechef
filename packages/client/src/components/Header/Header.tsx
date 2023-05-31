@@ -1,36 +1,21 @@
-import React from 'react';
-console.log('testing');
+import logoUrl from '../../assets/bc-logo2.png';
+
 const Header = () => {
   return (
-    <>
-      <nav className="flex items-center justify-between flex-wrap bg-cyan-600 0 p-6">
-        <div className="flex items-center flex-shrink-0 text-white font-mono mr-6">
-          <span className="font-semibold text-2xl tracking-tight">
-            Byte-Chef
-          </span>
-        </div>
-        <div className="text-sm font-semibold flex justify-end lg:flex-grow">
-          <a
-            href=""
-            className="block lg:inline-block lg:mt-0 text-teal-100 hover:text-yellow-200 mr-4"
-          >
-            Home
-          </a>
-          <a
-            href=""
-            className="block mt-4 lg:inline-block lg:mt-0 text-teal-100 hover:text-yellow-200 mr-4"
-          >
-            My Recipes
-          </a>
-          <a
-            href="#"
-            className="block mt-4 lg:inline-block lg:mt-0 text-teal-100 hover:text-yellow-200"
-          >
-            Login
-          </a>
+    <header className="flex justify-center flex-wrap flex-col phone:flex-row phone:justify-between maxW">
+      <div className="flex justify-center items-center p-2">
+        <img src={logoUrl} className="h-8 phone:h-10"></img>
+        <span className="font-semibold font-mono text-gray-600 phone:text-2xl tracking-tight pl-2">
+          Byte-Chef
+        </span>
+      </div>
+      <nav className="flex justify-center flex-wrap flex-col">
+        <div className="text-xs phone:text-sm font-semibold flex justify-center">
+          <button className="btn btn-red phone: mt-1">Generate</button>
+          <button className="btn btn-slate phone:mt-1 mx-4">Logout</button>
         </div>
       </nav>
-    </>
+    </header>
   );
 };
 
