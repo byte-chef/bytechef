@@ -1,9 +1,10 @@
 import './index.css';
 import Header from './components/Header/Header';
-import Recipe from './components/Recipe/Recipe';
+import Recipe from './components/RecipeMain/RecipeMain';
 import RecipeCard from './components/RecipeCard/RecipeCard';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { useRecipe } from './hooks/useRecipe';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -24,11 +25,27 @@ function App() {
   //   getGreeting();
   // }, []);
 
+  // const [currentRecipeId, setCurrentRecipeId] = React.useState<Recipe>(null);
+
+  // const handleGenerate = (recipe) => {
+
+  //   setCurrentRecipe(recipe);
+  // }
+
+  // const handleSelect = ()
+
+  // const handleSubmit = () => {
+  //   e.preventDefault();
+  //   const recipe = await axios.post();
+
+  //   onGenerate(recipe);
+  // }
+
   return (
     <>
       <QueryClientProvider client={queryClient}>
         <Header />
-        <Recipe />
+        <Recipe recipe={useRecipe('123').recipe} />
         <RecipeCard />
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
