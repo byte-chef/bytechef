@@ -8,11 +8,11 @@ export default {
       serif: ['Merriweather', 'serif'],
       mono: ['Space Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco'],
     },
-    screens: {
-      phone: '400px',
-      tablet: '640px',
-      laptop: '1024px',
-    },
+    // screens: {
+    //   phone: '400px',
+    //   tablet: '640px',
+    //   laptop: '1024px',
+    // },
     extend: {
       colors: {
         light: '#F2EEE5',
