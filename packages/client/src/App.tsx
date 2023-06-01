@@ -5,6 +5,7 @@ import Recipe from './components/Recipe/Recipe';
 import RecipeCard from './components/RecipeCard/RecipeCard';
 import GenerateOverlay from './components/GenerateOverlay/GenerateOverlay';
 import Modal from './components/Modal/Modal';
+import AuthModal from './components/AuthModal/AuthModal';
 
 function App() {
   // const [greeting, setGreeting] = useState('');
@@ -25,7 +26,7 @@ function App() {
   return (
     <>
       <Header />
-      <Modal open={true}>Test</Modal>
+      <AuthModal />
       <Recipe />
       <GenerateOverlay onGenerate={(recipe) => console.log(recipe)} />
       <RecipeCard />
