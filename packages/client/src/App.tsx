@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import './index.css';
 import Header from './components/Header/Header';
+import Recipe from './components/Recipe/Recipe';
+import RecipeCard from './components/RecipeCard/RecipeCard';
+import GenerateOverlay from './components/GenerateOverlay/GenerateOverlay';
 
 function App() {
   // const [greeting, setGreeting] = useState('');
@@ -21,6 +24,9 @@ function App() {
   return (
     <>
       <Header />
+      <Recipe />
+      <GenerateOverlay onGenerate={(recipe) => console.log(recipe)} />
+      <RecipeCard />
     </>
   );
 }

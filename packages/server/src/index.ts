@@ -6,15 +6,15 @@ import generateRouter from './routers/generateRouter';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import authRouter from './routers/authRouter';
 import recipeRouter from './routers/recipeRouter';
+import { ServerError } from './types/server-error';
 
 dotenv.config();
 
-import authRouter from './routers/authRouter';
-
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: process.env.BC_CLIENT_URL, credentials: true }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(
@@ -26,16 +26,14 @@ app.use(
   })
 );
 
-app.use(cors({ origin: 'process.env.BC_CLIENT_URL', credentials: true }));
-
 //API routes
 app.use('/auth', authRouter);
 app.use('/generate', generateRouter);
 app.use('/recipes', recipeRouter);
 
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.log('Error handler triggered.');
-  console.error(err.log);
+app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
+  console.log('Server error occurred.');
+  err.log && console.error(err.log);
 
   res.status(err.status || 500).json({
     message: err.message || 'Something went wrong.',
