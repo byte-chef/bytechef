@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 export interface Recipe {
+  userId: string;
   name: string;
   description: string;
   ingredients: string[];
@@ -11,7 +12,7 @@ export interface Recipe {
   time: number;
 }
 
-export type RecipeAttrs = Recipe
+export type RecipeAttrs = Recipe;
 
 export interface RecipeModel extends mongoose.Model<RecipeDocument> {
   build: (attrs: RecipeAttrs) => RecipeDocument;
@@ -23,6 +24,10 @@ export interface RecipeDocument extends RecipeAttrs, mongoose.Document {
 
 const recipeSchema = new mongoose.Schema<RecipeAttrs>(
   {
+    userId: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
