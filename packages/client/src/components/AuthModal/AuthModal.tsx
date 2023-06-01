@@ -4,6 +4,7 @@ import Modal from '../Modal/Modal';
 import TextField from '../TextField/TextField';
 import CustomButton from '../CustomButton/CustomButton';
 import LoadingOverlay from '../LoadingOverlay/LoadingOverlay';
+import axios from 'axios';
 
 const AuthModal = () => {
   const { user, setUser } = useUser();
@@ -16,6 +17,37 @@ const AuthModal = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
+
+    try {
+      if (signIn) {
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_BC_API_URL}/auth/signin`,
+          {
+            email,
+            password,
+          },
+          { withCredentials: true }
+        );
+
+        setUser(data);
+      } else {
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_BC_API_URL}/auth/signup`,
+          {
+            email,
+            password,
+            displayName,
+          },
+          { withCredentials: true }
+        );
+
+        setUser(data);
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

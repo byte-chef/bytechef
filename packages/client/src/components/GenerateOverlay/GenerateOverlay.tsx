@@ -55,6 +55,7 @@ const GenerateOverlay: React.FC<GenerateOverlayProps> = ({ onGenerate }) => {
         submission,
         {
           timeout: 60000,
+          withCredentials: true,
         }
       );
 

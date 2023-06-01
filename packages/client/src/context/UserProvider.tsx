@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react';
 
 export interface UserData {
@@ -22,6 +23,22 @@ interface UserProviderProps {
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = React.useState<UserData | null>(null);
+
+  React.useEffect(() => {
+    const getUser = async () => {
+      try {
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_BC_API_URL}/auth/user`,
+          { withCredentials: true }
+        );
+        setUser(data);
+      } catch (error) {
+        console.log('Please sign in to generate recipes.');
+      }
+    };
+
+    getUser();
+  }, []);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
