@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import authRouter from './routers/authRouter';
+import recipeRouter from './routers/recipeRouter';
 import { ServerError } from './types/server-error';
 
 dotenv.config();
@@ -28,6 +29,7 @@ app.use(
 //API routes
 app.use('/auth', authRouter);
 app.use('/generate', generateRouter);
+app.use('/recipes', recipeRouter);
 
 app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
   console.log('Server error occurred.');
