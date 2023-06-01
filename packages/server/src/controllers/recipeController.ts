@@ -11,8 +11,6 @@ const getAllRecipes = async (
   try {
     const recipes = await RecipeModel.find({ userId: user.id });
     res.locals.recipes = recipes;
-
-    return next();
   } catch (error) {
     return next({
       log: `Error retrieving recipes from db: ${error}`,
@@ -20,6 +18,8 @@ const getAllRecipes = async (
       status: 500,
     });
   }
+
+  return next();
 };
 
 const getRecipeById = async (
@@ -31,7 +31,7 @@ const getRecipeById = async (
   const { user } = req;
 
   try {
-    const recipe = await RecipeModel.findById({ _id: id, userId: user.id });
+    const recipe = await RecipeModel.findOne({ _id: id, userId: user.id });
 
     if (!recipe) {
       return next({
@@ -42,8 +42,6 @@ const getRecipeById = async (
     }
 
     res.locals.recipe = recipe;
-
-    return next();
   } catch (error) {
     return next({
       log: `Error retrieving recipe from db: ${error}`,
@@ -51,6 +49,8 @@ const getRecipeById = async (
       status: 500,
     });
   }
+
+  return next();
 };
 
 const deleteRecipeById = async (
@@ -62,7 +62,10 @@ const deleteRecipeById = async (
   const { user } = req;
 
   try {
-    const recipe = await RecipeModel.deleteOne({ _id: id, userId: user.id });
+    const recipe = await RecipeModel.findOneAndDelete({
+      _id: id,
+      userId: user.id,
+    });
 
     if (!recipe) {
       return next({
@@ -73,8 +76,6 @@ const deleteRecipeById = async (
     }
 
     res.locals.recipe = recipe;
-
-    return next();
   } catch (error) {
     return next({
       log: `Error deleting recipe from db: ${error}`,
@@ -82,6 +83,8 @@ const deleteRecipeById = async (
       status: 500,
     });
   }
+
+  return next();
 };
 
 const saveRecipe = async (req: Request, res: Response, next: NextFunction) => {
@@ -102,11 +105,9 @@ const saveRecipe = async (req: Request, res: Response, next: NextFunction) => {
       userId: user.id,
     });
 
-    savedRecipe.save();
+    await savedRecipe.save();
 
     res.locals.savedRecipe = savedRecipe;
-
-    return next();
   } catch (error) {
     return next({
       log: `Error saving recipe to db: ${error}`,
@@ -114,6 +115,8 @@ const saveRecipe = async (req: Request, res: Response, next: NextFunction) => {
       status: 500,
     });
   }
+
+  return next();
 };
 
 export default {
