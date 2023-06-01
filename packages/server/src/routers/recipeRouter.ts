@@ -22,4 +22,13 @@ recipeRouter.get(
   }
 );
 
+recipeRouter.delete(
+  '/:id',
+  authenticateUser,
+  recipeController.deleteRecipeById,
+  (req: Request, res: Response) => {
+    res.json(res.locals.recipe);
+  }
+);
+
 export default recipeRouter;
