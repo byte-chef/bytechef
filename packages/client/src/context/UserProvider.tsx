@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import AuthModal from '../components/AuthModal/AuthModal';
 
 export interface UserData {
   id: string;
@@ -42,6 +43,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
+      <AuthModal />
       {children}
     </UserContext.Provider>
   );

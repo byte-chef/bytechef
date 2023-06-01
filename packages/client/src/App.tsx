@@ -26,7 +26,6 @@ function App() {
   return (
     <>
       <Header />
-      <AuthModal />
       <Recipe />
       <GenerateOverlay onGenerate={(recipe) => console.log(recipe)} />
       <RecipeCard />
