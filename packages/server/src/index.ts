@@ -5,16 +5,12 @@ import mongoose from 'mongoose';
 import generateRouter from './routers/generateRouter';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
-import path from 'path';
 import MongoStore from 'connect-mongo';
-import { authenticateUser } from './controllers/authController';
 import recipeRouter from './routers/recipeRouter';
 
 dotenv.config();
 
 import authRouter from './routers/authRouter';
-// import { generateRouter } from './routers/generateRouter';
-// import { recipeRouter } from './routers/recipeRouter';
 
 const app = express();
 
@@ -37,16 +33,7 @@ app.use('/auth', authRouter);
 app.use('/generate', generateRouter);
 app.use('/recipes', recipeRouter);
 
-app.use((err: any, req: any, res: any, next: any) => {
-  console.log('Error handler triggered.');
-  console.error(err.log);
-
-  res.status(err.status || 500).json({
-    message: err.message || 'Something went wrong.',
-  });
-});
-
-app.use((err: any, req: any, res: any, next: any) => {
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.log('Error handler triggered.');
   console.error(err.log);
 
