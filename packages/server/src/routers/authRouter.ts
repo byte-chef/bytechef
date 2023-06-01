@@ -23,7 +23,7 @@ router.get('/user', authenticateUser, (req: Request, res: Response) => {
   return res.status(200).json(req.user);
 });
 
-router.get('/signout', authenticateUser, (req: Request, res: Response) => {
+router.post('/signout', authenticateUser, (req: Request, res: Response) => {
   req.session.userId = undefined;
   res.status(200).send();
 });

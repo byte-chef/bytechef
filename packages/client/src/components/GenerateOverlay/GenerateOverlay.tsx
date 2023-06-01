@@ -3,6 +3,7 @@ import TextField from '../TextField/TextField';
 import DynamicList from '../DynamicList/DynamicList';
 import LoadingOverlay from '../LoadingOverlay/LoadingOverlay';
 import axios from 'axios';
+import CustomButton from '../CustomButton/CustomButton';
 
 interface GenerateOptions {
   ingredients: string[];
@@ -54,6 +55,7 @@ const GenerateOverlay: React.FC<GenerateOverlayProps> = ({ onGenerate }) => {
         submission,
         {
           timeout: 60000,
+          withCredentials: true,
         }
       );
 
@@ -123,12 +125,7 @@ const GenerateOverlay: React.FC<GenerateOverlayProps> = ({ onGenerate }) => {
                 />
               </div>
             </div>
-            <button
-              type="submit"
-              className="w-full p-2.5 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 mt-4"
-            >
-              Generate
-            </button>
+            <CustomButton type="submit">Generate</CustomButton>
           </form>
         </LoadingOverlay>
       </div>
