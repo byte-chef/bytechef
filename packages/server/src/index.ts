@@ -8,6 +8,7 @@ import session from 'express-session';
 import path from 'path';
 import MongoStore from 'connect-mongo';
 import { authenticateUser } from './controllers/authController';
+import recipeRouter from './routers/recipeRouter';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use(cors({ origin: 'process.env.BC_CLIENT_URL', credentials: true }));
 //API routes
 app.use('/auth', authRouter);
 app.use('/generate', generateRouter);
+app.use('/recipes', recipeRouter);
 
 app.use((err: any, req: any, res: any, next: any) => {
   console.log('Error handler triggered.');
@@ -43,8 +45,6 @@ app.use((err: any, req: any, res: any, next: any) => {
     message: err.message || 'Something went wrong.',
   });
 });
-
-app.use('/generate', generateRouter);
 
 app.use((err: any, req: any, res: any, next: any) => {
   console.log('Error handler triggered.');

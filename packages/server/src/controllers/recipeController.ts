@@ -1,6 +1,27 @@
 import { NextFunction, Request, Response } from 'express';
 import { RecipeModel } from '../models/RecipeModel';
 
+const getAllRecipes = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user } = req;
+
+  try {
+    const recipes = await RecipeModel.find({ userId: user.id });
+    res.locals.recipes = recipes;
+
+    return next();
+  } catch (error) {
+    return next({
+      log: `Error retrieving recipes from db: ${error}`,
+      message: 'Server Error',
+      status: 500,
+    });
+  }
+};
+
 const saveRecipe = async (req: Request, res: Response, next: NextFunction) => {
   const { generatedRecipe } = res.locals;
   const { user } = req;
@@ -8,14 +29,6 @@ const saveRecipe = async (req: Request, res: Response, next: NextFunction) => {
   if (!generatedRecipe) {
     return next({
       log: `Error retrieving generated recipe: ${generatedRecipe}`,
-      message: 'Server Error',
-      status: 500,
-    });
-  }
-
-  if (!user) {
-    return next({
-      log: `Error retrieving user: ${user}`,
       message: 'Server Error',
       status: 500,
     });
@@ -42,5 +55,6 @@ const saveRecipe = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export default {
+  getAllRecipes,
   saveRecipe,
 };
