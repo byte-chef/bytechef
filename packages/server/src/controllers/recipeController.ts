@@ -100,14 +100,15 @@ const saveRecipe = async (req: Request, res: Response, next: NextFunction) => {
   }
 
   try {
+    console.log('Saving recipe to database...');
+
     const savedRecipe = RecipeModel.build({
       ...generatedRecipe,
       userId: user.id,
     });
-
     await savedRecipe.save();
-
     res.locals.savedRecipe = savedRecipe;
+    console.log('Receipe saved.');
   } catch (error) {
     return next({
       log: `Error saving recipe to db: ${error}`,
