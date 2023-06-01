@@ -13,4 +13,13 @@ recipeRouter.get(
   }
 );
 
+recipeRouter.get(
+  '/:id',
+  authenticateUser,
+  recipeController.getRecipeById,
+  (req: Request, res: Response) => {
+    res.json(res.locals.recipe);
+  }
+);
+
 export default recipeRouter;

@@ -22,6 +22,37 @@ const getAllRecipes = async (
   }
 };
 
+const getRecipeById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params;
+  const { user } = req;
+
+  try {
+    const recipe = await RecipeModel.findById({ _id: id, userId: user.id });
+
+    if (!recipe) {
+      return next({
+        log: `Recipe not found: ${recipe}`,
+        message: 'Client Error',
+        status: 404,
+      });
+    }
+
+    res.locals.recipe = recipe;
+
+    return next();
+  } catch (error) {
+    return next({
+      log: `Error retrieving recipe from db: ${error}`,
+      message: 'Server Error',
+      status: 500,
+    });
+  }
+};
+
 const saveRecipe = async (req: Request, res: Response, next: NextFunction) => {
   const { generatedRecipe } = res.locals;
   const { user } = req;
@@ -56,5 +87,6 @@ const saveRecipe = async (req: Request, res: Response, next: NextFunction) => {
 
 export default {
   getAllRecipes,
+  getRecipeById,
   saveRecipe,
 };
