@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useQuery } from '@tanstack/react-query';
 import { Recipe } from '../types/recipe.ts';
 
 // sample recipe that will be retrieved from database

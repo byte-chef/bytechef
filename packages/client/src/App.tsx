@@ -5,6 +5,8 @@ import RecipeCard from './components/RecipeCard/RecipeCard';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { useRecipe } from './hooks/useRecipe';
+import { useAllRecipes } from './hooks/useAllRecipes';
+import { useEffect } from 'react';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -41,6 +43,10 @@ function App() {
   //   onGenerate(recipe);
   // }
 
+  //loading all recipes after signed in
+  useEffect(() => {
+    useAllRecipes;
+  }, []);
   return (
     <>
       <QueryClientProvider client={queryClient}>
