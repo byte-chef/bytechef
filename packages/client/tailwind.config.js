@@ -4,7 +4,6 @@ export default {
   darkMode: 'class',
   theme: {
     fontFamily: {
-      sans: ['Graphik', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
       mono: ['Space Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco'],
     },
@@ -15,11 +14,12 @@ export default {
     // },
     extend: {
       colors: {
-        light: '#F2EEE5',
+        light: '#f1dabf',
+        custom_white: 'fffbff',
         custom_red: '#8D4147',
-        custom_beige: '#F2DBB3',
+        custom_beige: '#92817a',
         custom_gray: '#88929E',
-        custom_dark: '#222021',
+        custom_dark: '#04030f',
       },
     },
   },
