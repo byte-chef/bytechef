@@ -32,4 +32,12 @@
   .maxW {
     @apply max-w-[1200px] m-auto;
   }
+
+  .input {
+    @apply border-2 border-custom_beige rounded p-1 w-40 text-center;
+  }
+
+  .dynamic-resize {
+    max-width: max(100%, 400px);
+  }
 }
