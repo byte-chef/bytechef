@@ -44,9 +44,16 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <Header />
+        <div className="border-b-2 border-slate-200 drop-shadow-md z-10 sticky top-0">
+          <Header />
+        </div>
         <Recipe recipe={useRecipe('123').recipe} />
-        <RecipeCard />
+        <div className="flex flex-wrap justify-between gap-2 w-5/6 mx-auto">
+          <RecipeCard />
+          <RecipeCard />
+          <RecipeCard />
+          <RecipeCard />
+        </div>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </>

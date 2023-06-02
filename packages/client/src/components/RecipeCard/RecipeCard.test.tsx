@@ -6,7 +6,7 @@ describe('RecipeCard', () => {
     render(<RecipeCard />);
 
     screen.debug();
-    const headline = screen.getByText('Title');
+    const headline = screen.getByText('Breakfast (55 mins)');
     expect(headline).toBeInTheDocument();
 
     // check if App components renders headline
