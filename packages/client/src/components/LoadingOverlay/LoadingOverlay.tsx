@@ -9,7 +9,6 @@ interface LoadingOverlayProps {
 const loadingGifs = [
   '/gifs/food.gif',
   '/gifs/jumping.gif',
-  '/gifs/loading.gif',
   '/gifs/tossing.gif',
 ];
 
@@ -27,6 +26,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
           <img
             src={loadingGifs[Math.floor(Math.random() * loadingGifs.length)]}
             alt="A loading gif"
+            className="w-[150px] h-[150px] object-contain"
           />
         </div>
       )}
