@@ -104,11 +104,12 @@ function App() {
       <RecipeMain
         recipe={featuredRecipe}
         onDelete={() => {
-          setFeaturedRecipe(recipes.at(-1) || sampleRecipe);
+          const newRecipes = recipes.filter(
+            (recipe) => recipe.id !== featuredRecipe.id
+          );
+          setRecipes(newRecipes);
+          setFeaturedRecipe(newRecipes.at(-1) || sampleRecipe);
           setShowGeneratePrompt(true);
-          setRecipes((recipes) => {
-            return recipes.filter((recipe) => recipe.id !== featuredRecipe.id);
-          });
         }}
       />
       <div className="flex flex-wrap justify-between gap-2 maxW mb-6">
