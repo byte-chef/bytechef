@@ -4,6 +4,7 @@ import DynamicList from '../DynamicList/DynamicList';
 import LoadingOverlay from '../LoadingOverlay/LoadingOverlay';
 import axios from 'axios';
 import CustomButton from '../CustomButton/CustomButton';
+import Modal from '../Modal/Modal';
 
 interface GenerateOptions {
   ingredients: string[];
@@ -15,9 +16,13 @@ interface GenerateOptions {
 
 interface GenerateOverlayProps {
   onGenerate: (recipe: any) => void;
+  onClose: () => void;
 }
 
-const GenerateOverlay: React.FC<GenerateOverlayProps> = ({ onGenerate }) => {
+const GenerateOverlay: React.FC<GenerateOverlayProps> = ({
+  onGenerate,
+  onClose,
+}) => {
   const [loadingRecipe, setLoadingRecipe] = React.useState(false);
   const [generateOptions, setGenerateOptions] = React.useState<GenerateOptions>(
     {
@@ -68,8 +73,12 @@ const GenerateOverlay: React.FC<GenerateOverlayProps> = ({ onGenerate }) => {
   };
 
   return (
-    <div className="relative z-20 m-1">
-      <div className="absolute max-w-[95%] w-[400px] min-h-[300px] bg-slate-100 top-0 shadow-md left-0 p-6 md:w-auto md:max-w-auto rounded-lg">
+    <Modal
+      open={true}
+      className=" max-w-[95%] w-[400px] min-h-[300px] bg-slate-100 top-0 shadow-md left-0 p-6 md:w-auto md:max-w-auto rounded-lg"
+      onClickOutside={() => onClose()}
+    >
+      <div className="">
         <LoadingOverlay loading={loadingRecipe} message="Generating...">
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <h2 className="mb-2 md:text-left">Generate New Recipe</h2>
@@ -129,7 +138,7 @@ const GenerateOverlay: React.FC<GenerateOverlayProps> = ({ onGenerate }) => {
           </form>
         </LoadingOverlay>
       </div>
-    </div>
+    </Modal>
   );
 };
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
-import logoUrl from '../../assets/bc-logo2.png';
 import { useUser } from '../../hooks/useUser';
+import CustomButton from '../CustomButton/CustomButton';
 
 interface HeaderProps {
   onGenerateClicked: () => void;
@@ -25,28 +25,22 @@ const Header: React.FC<HeaderProps> = ({ onGenerateClicked }) => {
   };
 
   return (
-    <header className="flex justify-center flex-wrap flex-col md:flex-row md:justify-between maxW">
+    <header className="flex justify-center items-center flex-wrap flex-col md:flex-row md:justify-between maxW">
       <div className="flex justify-center items-center p-2">
-        <img src={logoUrl} className="h-8 md:h-10"></img>
+        <img src="/images/bc-logo2.png" className="h-8 md:h-10"></img>
         <span className="font-semibold font-mono text-gray-600 md:text-2xl tracking-tight pl-2">
           Byte-Chef
         </span>
       </div>
-      <nav className="flex justify-center flex-wrap flex-col">
-        <div className="text-xs md:text-sm font-semibold flex justify-center">
-          <button
-            className="btn btn-red md: mt-1"
-            onClick={() => onGenerateClicked()}
-          >
+      <nav className="flex justify-center items-center h-full">
+        <div className="text-xs md:text-sm font-semibold flex justify-center gap-4 items-center h-full">
+          <CustomButton onClick={() => onGenerateClicked()}>
             Generate
-          </button>
+          </CustomButton>
           {user && (
-            <button
-              className="btn btn-slate md:mt-1 mx-4"
-              onClick={handleLogout}
-            >
+            <CustomButton onClick={handleLogout} variant="outlined">
               Logout
-            </button>
+            </CustomButton>
           )}
         </div>
       </nav>

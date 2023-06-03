@@ -2,10 +2,6 @@ import './index.css';
 import Header from './components/Header/Header';
 import RecipeMain from './components/RecipeMain/RecipeMain';
 import RecipeCard from './components/RecipeCard/RecipeCard';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
-import { useRecipe } from './hooks/useRecipe';
-import { useAllRecipes } from './hooks/useAllRecipes';
 import React from 'react';
 import { Recipe } from './types/recipe.ts';
 import GenerateOverlay from './components/GenerateOverlay/GenerateOverlay.tsx';
@@ -46,7 +42,10 @@ function App() {
   const { user } = useUser();
 
   React.useEffect(() => {
+    console.log('In useEffect');
+
     const getRecipes = async () => {
+      if (!user) return;
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_BC_API_URL}/recipes`,
@@ -71,7 +70,16 @@ function App() {
       }
     };
 
+    if (!user) {
+      setRecipes([sampleRecipe]);
+      setFeaturedRecipe(sampleRecipe);
+    }
     getRecipes();
+
+    return () => {
+      setRecipes([sampleRecipe]);
+      setFeaturedRecipe(sampleRecipe);
+    };
   }, [user]);
 
   const handleGenerate = (newRecipe: Recipe) => {
@@ -87,11 +95,23 @@ function App() {
       <div className="border-b-2 border-slate-200 drop-shadow-md bg-gray-200 z-10 sticky top-0">
         <Header onGenerateClicked={() => setShowGeneratePrompt(true)} />
       </div>
-      {showGeneratePrompt && <GenerateOverlay onGenerate={handleGenerate} />}
+      {showGeneratePrompt && (
+        <GenerateOverlay
+          onGenerate={handleGenerate}
+          onClose={() => setShowGeneratePrompt(false)}
+        />
+      )}
       <RecipeMain recipe={featuredRecipe} />
-      <div className="flex flex-wrap justify-between gap-2 w-5/6 mx-auto">
+      <div className="flex flex-wrap justify-between gap-2 maxW mb-6">
         {recipes.map((recipe) => (
-          <RecipeCard recipe={recipe} />
+          <RecipeCard
+            key={recipe.id}
+            recipe={recipe}
+            onSelect={() => {
+              setFeaturedRecipe(recipe);
+              window.scrollTo(0, 0);
+            }}
+          />
         ))}
       </div>
     </>

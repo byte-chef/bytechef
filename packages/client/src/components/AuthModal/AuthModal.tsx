@@ -95,7 +95,7 @@ const AuthModal = () => {
           </CustomButton>
           <a
             onClick={() => setSignIn(!signIn)}
-            className="text-blue-500 hover:text-blue-700 cursor-pointer"
+            className="text-custom_red hover:text-red-500 cursor-pointer"
           >
             {signIn ? 'Create New Account' : 'Already have an account?'}
           </a>

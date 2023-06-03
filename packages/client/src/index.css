@@ -8,6 +8,8 @@
   html {
     font-family: mulish, Source Code Pro, ui-sans-serif, Helvetica, system-ui,
       sans-serif;
+
+    scroll-behavior: smooth;
   }
   body {
     @apply text-center bg-gray-200;

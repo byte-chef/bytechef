@@ -7,10 +7,10 @@ interface LoadingOverlayProps {
 }
 
 const loadingGifs = [
-  '/gifs/microwave.gif',
-  '/gifs/cheeseburger.gif',
-  '/gifs/cookie.gif',
-  '/gifs/tomato.gif',
+  '/gifs/food.gif',
+  '/gifs/jumping.gif',
+  '/gifs/loading.gif',
+  '/gifs/tossing.gif',
 ];
 
 const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
