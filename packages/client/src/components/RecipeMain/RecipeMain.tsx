@@ -1,14 +1,31 @@
+import axios from 'axios';
 import { Recipe } from '../../types/recipe';
 import CustomButton from '../CustomButton/CustomButton';
 
 interface RecipeProps {
   recipe: Recipe;
+  onDelete: () => void;
 }
 
-const RecipeMain = ({ recipe }: RecipeProps) => {
+const RecipeMain = ({ recipe, onDelete }: RecipeProps) => {
   if (!recipe) {
     return <span>Loading...</span>;
   }
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `${import.meta.env.VITE_BC_API_URL}/recipes/${recipe.id}`,
+        {
+          withCredentials: true,
+        }
+      );
+
+      onDelete();
+    } catch (error) {
+      console.error('Error deleting recipe.');
+    }
+  };
 
   return (
     <article aria-label={`Recipe for ${recipe.name}`} className="mb-10">
@@ -32,7 +49,9 @@ const RecipeMain = ({ recipe }: RecipeProps) => {
                   </p>
                 </div>
                 <div className="w-full md:w-1/6 justify-items-end  flex flex-col gap-3">
-                  <CustomButton className="btn-red">Delete</CustomButton>
+                  <CustomButton className="btn-red" onClick={handleDelete}>
+                    Delete
+                  </CustomButton>
                   <CustomButton variant="outlined" className="btn-slate">
                     Like
                   </CustomButton>

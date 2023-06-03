@@ -101,7 +101,16 @@ function App() {
           onClose={() => setShowGeneratePrompt(false)}
         />
       )}
-      <RecipeMain recipe={featuredRecipe} />
+      <RecipeMain
+        recipe={featuredRecipe}
+        onDelete={() => {
+          setFeaturedRecipe(recipes.at(-1) || sampleRecipe);
+          setShowGeneratePrompt(true);
+          setRecipes((recipes) => {
+            return recipes.filter((recipe) => recipe.id !== featuredRecipe.id);
+          });
+        }}
+      />
       <div className="flex flex-wrap justify-between gap-2 maxW mb-6">
         {recipes.map((recipe) => (
           <RecipeCard
