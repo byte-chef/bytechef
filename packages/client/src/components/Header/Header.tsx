@@ -2,7 +2,11 @@ import axios from 'axios';
 import logoUrl from '../../assets/bc-logo2.png';
 import { useUser } from '../../hooks/useUser';
 
-const Header = () => {
+interface HeaderProps {
+  onGenerateClicked: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onGenerateClicked }) => {
   const { user, setUser } = useUser();
 
   const handleLogout = async () => {
@@ -30,7 +34,12 @@ const Header = () => {
       </div>
       <nav className="flex justify-center flex-wrap flex-col">
         <div className="text-xs md:text-sm font-semibold flex justify-center">
-          <button className="btn btn-red md: mt-1">Generate</button>
+          <button
+            className="btn btn-red md: mt-1"
+            onClick={() => onGenerateClicked()}
+          >
+            Generate
+          </button>
           {user && (
             <button
               className="btn btn-slate md:mt-1 mx-4"

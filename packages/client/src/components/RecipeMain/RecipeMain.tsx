@@ -22,8 +22,8 @@ const RecipeMain = ({ recipe }: RecipeProps) => {
         <div className="w-2/3 text-start mx-auto ">
           <div className="flex pt-10 bg-white flex-col p-5">
             <div className="">
-              <div className="tablet:flex justify-between">
-                <div className="tablet:w-4/5">
+              <div className="md:flex justify-between">
+                <div className="md:w-4/5">
                   <h2 className="text-4xl font-semibold mb-5">{recipe.name}</h2>
                   <p className="prose prose-stone prose-sm text-custom_red">
                     Generated on Wednesday, June 1st, 2023
@@ -32,7 +32,7 @@ const RecipeMain = ({ recipe }: RecipeProps) => {
                     {recipe.description}
                   </p>
                 </div>
-                <div className="tablet:w-1/6 justify-items-end  flex flex-col gap-3">
+                <div className="md:w-1/6 justify-items-end  flex flex-col gap-3">
                   <button className="btn-red">Delete</button>
                   <button className="btn-slate">Like</button>
                   <button className="btn-slate">Print</button>

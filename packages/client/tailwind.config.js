@@ -7,11 +7,11 @@ export default {
       serif: ['Merriweather', 'serif'],
       mono: ['Space Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco'],
     },
-    // screens: {
-    //   phone: '400px',
-    //   tablet: '640px',
-    //   laptop: '1024px',
-    // },
+    screens: {
+      sm: '400px',
+      md: '640px',
+      lg: '1024px',
+    },
     extend: {
       colors: {
         light: '#f1dabf',
