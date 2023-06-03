@@ -17,6 +17,27 @@ const DynamicList: React.FC<DynamicListProps> = ({
   const [inputValue, setInputValue] = React.useState('');
   const fieldId = label.split(' ').join('-').toLowerCase();
 
+  const handleAdd = () => {
+    if (inputValue.trim() === '') return;
+
+    const newValues = [...values];
+    newValues.push(inputValue);
+    onChange(newValues);
+    setInputValue('');
+  };
+
+  const handleClickAdd = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    handleAdd();
+  };
+
+  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleAdd();
+    }
+  };
+
   return (
     <div className={className}>
       <label
@@ -58,18 +79,13 @@ const DynamicList: React.FC<DynamicListProps> = ({
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           value={inputValue}
           onChange={(event) => setInputValue(event.target.value)}
+          onKeyDown={onKeyDown}
         />
         <button
           type="button"
           aria-label="Add ingredient"
           className="mt-2 text-sm font-medium text-gray-900 dark:text-white"
-          onClick={(event) => {
-            event.preventDefault();
-            const newValues = [...values];
-            newValues.push(inputValue);
-            onChange(newValues);
-            setInputValue('');
-          }}
+          onClick={handleClickAdd}
         >
           <PlusCircleIcon className="w-6 h-6 text-green-600 mb-1" />
         </button>
