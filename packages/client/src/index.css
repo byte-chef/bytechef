@@ -1,3 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Monofett&family=Mulish&family=Source+Code+Pro&family=Space+Mono&display=swap');
 @tailwind base;
 @tailwind components;
+
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: mulish, Source Code Pro, ui-sans-serif, Helvetica, system-ui,
+      sans-serif;
+
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply text-center bg-gray-200;
+  }
+  h3 {
+    @apply text-2xl font-semibold;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply cursor-pointer rounded w-20 p-1 transition ease-out duration-500;
+  }
+  .btn-red {
+    @apply bg-red-800 hover:bg-red-600 border text-light rounded-full;
+  }
+
+  .btn-slate {
+    @apply bg-custom_white hover:bg-light border border-red-700 rounded-full text-custom_white;
+  }
+
+  .maxW {
+    @apply max-w-[1200px] m-auto;
+  }
+
+  .input {
+    @apply border-2 border-custom_beige rounded p-1 w-40 text-center;
+  }
+
+  .dynamic-resize {
+    max-width: max(100%, 400px);
+  }
+}

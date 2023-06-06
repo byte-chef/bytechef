@@ -1,13 +1,43 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import generateRouter from './routers/generateRouter';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
+import authRouter from './routers/authRouter';
+import recipeRouter from './routers/recipeRouter';
+import { ServerError } from './types/server-error';
+
+dotenv.config();
 
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+app.use(cors({ origin: process.env.BC_CLIENT_URL, credentials: true }));
+app.use(cookieParser());
+app.use(express.json());
+app.use(
+  session({
+    secret: 'byte-chef',
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.BC_MONGODB_URI || '' }),
+  })
+);
 
-app.get('/greeting', (req, res) => {
-  res.json({ greeting: 'Hi there!' });
+//API routes
+app.use('/auth', authRouter);
+app.use('/generate', generateRouter);
+app.use('/recipes', recipeRouter);
+
+app.use((err: ServerError, req: Request, res: Response, next: NextFunction) => {
+  console.log('Server error occurred.');
+  err.log && console.error(err.log);
+
+  res.status(err.status || 500).json({
+    message: err.message || 'Something went wrong.',
+  });
 });
 
 const start = async () => {
@@ -19,8 +49,10 @@ const start = async () => {
     console.error(err);
   }
 
-  app.listen(4000, () => {
-    console.log('Listening on port 4000');
+  const port = process.env.BC_PORT;
+
+  app.listen(port, () => {
+    console.log(`Listening on ${port}`);
   });
 };
 

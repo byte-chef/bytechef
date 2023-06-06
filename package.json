@@ -9,11 +9,19 @@
   "main": "index.js",
   "scripts": {
     "test": "lerna run test --stream",
-    "dev": "lerna run dev --stream"
+    "dev": "lerna run dev --stream",
+    "prepare": "husky install",
+    "lint": "lerna run lint --stream"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "lerna": "^5.1.8"
+    "eslint-config-prettier": "^8.8.0",
+    "husky": "^8.0.3",
+    "lerna": "^5.1.8",
+    "lint-staged": "^13.2.2"
+  },
+  "dependencies": {
+    "eslint-plugin-prettier": "^4.2.1"
   }
 }
